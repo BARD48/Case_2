@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "704333301875",
+    "project_id": "turkcell-project-10f99",
+    "storage_bucket": "turkcell-project-10f99.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:704333301875:android:72d66c22c66b6855350206",
+        "android_client_info": {
+          "package_name": "com.example.turkcell_project"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBfBerlBLDXCsB0nfL-yClODoaDG7QqKis"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

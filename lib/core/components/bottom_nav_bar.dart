@@ -100,7 +100,7 @@ class _BottomNavBarState extends State<BottomNavBar>
   }
 }
 
-enum BottomTabType { home, listsTabPage}
+enum BottomTabType { home, settings, userhome }
 
 extension BottomTabExtension on BottomTabType {
   String get label => name;
@@ -109,19 +109,21 @@ extension BottomTabExtension on BottomTabType {
     switch (this) {
       case BottomTabType.home:
         return 'Home';
-      case BottomTabType.listsTabPage:
-        return 'My Lists';
-    
+      case BottomTabType.settings:
+        return 'Settings';
+      case BottomTabType.userhome:
+        return 'UserHome';
     }
   }
 
   IconData icon(PhosphorIconsStyle style) {
     switch (this) {
       case BottomTabType.home:
-        return PhosphorIcons.houseSimple(style);
-      case BottomTabType.listsTabPage:
-        return PhosphorIcons.heart(style);
-      
+        return PhosphorIcons.house(style);
+      case BottomTabType.settings:
+        return PhosphorIcons.gear(style);
+      case BottomTabType.userhome:
+        return PhosphorIcons.gear(style);
     }
   }
 }

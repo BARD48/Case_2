@@ -62,6 +62,7 @@ class RegisterPage extends StatelessWidget {
               ),
             ),
             BaseButton(
+              callback: () => context.pushNamed('home'),
               title: 'Register',
               width: context.dynamicWidth(1),
               baseButtonType: BaseButtonType.filledGreen,

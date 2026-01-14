@@ -5,7 +5,8 @@ import 'package:turkcell_project/features/splash/view/splash_page.dart';
 
 import '../../features/auth/view/user/register_page.dart';
 import '../../features/home/view/home_page.dart';
-import '../../features/settings/view/service_page.dart';
+import '../../features/home/view/user_home_page.dart';
+import '../../features/settings/view/settings_page.dart';
 import '../components/bottom_nav_bar.dart';
 
 class AppRouter {
@@ -26,9 +27,9 @@ class AppRouter {
             StatefulShellBranch(
               routes: [
                 GoRoute(
-                  path: "/settings",
-                  name: "settings",
-                  builder: (context, state) => SettingsPage(),
+                  path: "/home",
+                  name: "home",
+                  builder: (context, state) => HomePage(),
                   routes: [],
                 ),
               ],
@@ -36,9 +37,19 @@ class AppRouter {
             StatefulShellBranch(
               routes: [
                 GoRoute(
-                  path: "/home",
-                  name: "home",
-                  builder: (context, state) => HomePage(),
+                  path: "/userHome",
+                  name: "userHome",
+                  builder: (context, state) => UserHomePage(),
+                  routes: [],
+                ),
+              ],
+            ),
+            StatefulShellBranch(
+              routes: [
+                GoRoute(
+                  path: "/settings",
+                  name: "settings",
+                  builder: (context, state) => SettingsPage(),
                   routes: [],
                 ),
               ],

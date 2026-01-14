@@ -58,6 +58,7 @@ class LoginPage extends StatelessWidget {
             Padding(
               padding: context.symmetricPadding(40, 0),
               child: BaseButton(
+                callback: () => context.pushNamed('home'),
                 title: 'Login',
                 width: context.dynamicWidth(1),
                 baseButtonType: BaseButtonType.filledGreen,

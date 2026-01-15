@@ -9,11 +9,13 @@ class BaseFitreItem extends StatefulWidget {
     super.key,
     required this.isChecked,
     required this.onChanged,
-    required this.title,
+    this.title,
+    this.widget,
   });
   bool isChecked;
   final VoidCallback onChanged;
-  final String title;
+  final String? title;
+  final Widget? widget;
 
   @override
   State<BaseFitreItem> createState() => _BaseFitreItemState();
@@ -50,10 +52,12 @@ class _BaseFitreItemState extends State<BaseFitreItem> {
 
             Expanded(
               flex: 6,
-              child: Text(
-                widget.title,
-                style: Theme.of(context).textTheme.labelLarge,
-              ),
+              child:
+                  widget.widget ??
+                  Text(
+                    widget.title ?? '',
+                    style: Theme.of(context).textTheme.labelLarge,
+                  ),
             ),
           ],
         ),

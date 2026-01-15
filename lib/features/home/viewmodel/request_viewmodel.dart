@@ -5,14 +5,23 @@ import 'package:turkcell_project/features/home/model/user/request_model.dart';
 import 'package:turkcell_project/features/home/state/request_state.dart';
 
 import '../../../core/enums/enums.dart';
+import '../model/resources_model.dart';
 import '../service/req_service.dart';
+import '../service/resources_service.dart';
 
 class RequestViewmodel extends Cubit<RequestState> {
   RequestViewmodel()
     : super(
-        RequestState(isLoading: false, req: CustomerRequest(), reqList: []),
+        RequestState(
+          isLoading: false,
+          req: CustomerRequest(),
+          reqList: [],
+          resourcesList: [],
+        ),
       );
   RequestService _service = RequestService();
+  ResourcesService _resourcesService = ResourcesService();
+
   final userId = FirebaseAuth.instance.currentUser!.uid;
   void adjustUrgency({required UrgencyEnum urgency}) =>
       emit(state.copyWith(req: state.req.copyWith(urgency: urgency)));
@@ -40,6 +49,17 @@ class RequestViewmodel extends Cubit<RequestState> {
     try {
       await _service.getUserRequests(userId);
       emit(state.copyWith(isLoading: true));
+    } catch (e) {
+      emit(state.copyWith(isLoading: false));
+    }
+  }
+
+  Future<void> getResources() async {
+    emit(state.copyWith(isLoading: false));
+
+    try {
+      List<ResourceModel> list = await _resourcesService.getResources();
+      emit(state.copyWith(isLoading: true, resourcesList: list));
     } catch (e) {
       emit(state.copyWith(isLoading: false));
     }

@@ -11,6 +11,7 @@ import '../../../core/components/appbar.dart';
 import '../../../core/components/toggle.dart';
 import '../../../core/constants/text_constants.dart';
 import '../../../core/theme/theme_mode.dart';
+import '../model/resources_model.dart';
 import '../model/user/request_model.dart';
 import '../viewmodel/request_viewmodel.dart';
 
@@ -28,6 +29,7 @@ class _HomePageState extends State<HomePage> {
   void initState() {
     viewmodel = context.read<RequestViewmodel>();
     viewmodel.getAllRequests();
+    viewmodel.getResources();
     super.initState();
   }
 
@@ -78,7 +80,10 @@ class _HomePageState extends State<HomePage> {
                   child: SingleChildScrollView(
                     scrollDirection: Axis.horizontal,
                     child: Row(
-                      children: List.generate(3, (index) {
+                      children: List.generate(state.resourcesList.length, (
+                        index,
+                      ) {
+                        ResourceModel model = state.resourcesList[index];
                         return Container(
                           // height: context.dynamicHeight(0.1),
                           margin: const EdgeInsets.only(right: 8),
@@ -95,15 +100,15 @@ class _HomePageState extends State<HomePage> {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Text(
-                                'Tech Team',
+                                model.resourceType,
                                 style: Theme.of(context).textTheme.titleLarge,
                               ),
                               Text(
-                                'Capasity:2',
+                                'Capasity:${model.capacity}',
                                 style: Theme.of(context).textTheme.titleSmall,
                               ),
                               Text(
-                                'City:istanbul',
+                                'City:${model.city}',
                                 style: Theme.of(context).textTheme.titleSmall,
                               ),
                             ],
@@ -113,42 +118,43 @@ class _HomePageState extends State<HomePage> {
                     ),
                   ),
                 ),
-                Padding(
-                  padding: EdgeInsets.only(
-                    top: 16,
-                    left: 20,
-                    right: 20,
-                    bottom: 12,
-                  ),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text(
-                        'Bekleyenlar',
-                        style: Theme.of(context).textTheme.titleMedium,
-                      ),
-                      Text(
-                        'Tümünü Gör',
-                        style: Theme.of(context).textTheme.labelMedium
-                            ?.copyWith(decoration: TextDecoration.underline),
-                      ),
-                    ],
-                  ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.only(left: 20, top: 20, bottom: 20),
-                  child: SingleChildScrollView(
-                    scrollDirection: Axis.horizontal,
-                    child: Row(
-                      children: List.generate(4, (index) {
-                        return Padding(
-                          padding: const EdgeInsets.only(right: 20),
-                          child: Container(child: Text('data')),
-                        );
-                      }),
-                    ),
-                  ),
-                ),
+                // Padding(
+                //   padding: EdgeInsets.only(
+                //     top: 16,
+                //     left: 20,
+                //     right: 20,
+                //     bottom: 12,
+                //   ),
+                //   child: Row(
+                //     mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                //     children: [
+                //       Text(
+                //         'Bekleyenlar',
+                //         style: Theme.of(context).textTheme.titleMedium,
+                //       ),
+                //       Text(
+                //         'Tümünü Gör',
+                //         style: Theme.of(context).textTheme.labelMedium
+                //             ?.copyWith(decoration: TextDecoration.underline),
+                //       ),
+                //     ],
+                //   ),
+                // ),
+                // Padding(
+                //   padding: const EdgeInsets.only(left: 20, top: 20, bottom: 20),
+                //   child: SingleChildScrollView(
+                //     scrollDirection: Axis.horizontal,
+                //     child: Row(
+                //       children: List.generate(4, (index) {
+                //         return Padding(
+                //           padding: const EdgeInsets.only(right: 20),
+                //           child: Container(child: Text('data')),
+                //         );
+                //       }),
+                //     ),
+                //   ),
+                // ),
+                SizedBox(height: 36),
                 Column(
                   children: List.generate(state.reqList.length, (index) {
                     CustomerRequest model = state.reqList[index];
@@ -169,6 +175,10 @@ class _HomePageState extends State<HomePage> {
                           SizedBox(height: 8),
                           Text(
                             model.requestType?.name ?? '',
+                            style: Theme.of(context).textTheme.titleMedium,
+                          ),
+                          Text(
+                            model.urgency?.name ?? '',
                             style: Theme.of(context).textTheme.titleMedium,
                           ),
                         ],

@@ -21,77 +21,135 @@ class SettingsPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: CustomAppBar(
-        title: 'Settings Rules',
-        actions: [],
-        isVisibleLeading: false,
-      ),
+      appBar: CustomAppBar(title: 'Settings Rules', actions: []),
       bottomNavigationBar: BottomActionBar(
         color: Constant.fillBase(context),
         baseButtonType: BaseButtonType.filledGreen,
         title: 'Update',
         callback: () {},
       ),
-      body: Padding(
-        padding: const EdgeInsets.all(20.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Padding(
-              padding: context.symmetricPadding(16, 0),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      body: SingleChildScrollView(
+        child: Padding(
+          padding: const EdgeInsets.all(20.0),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Padding(
+                padding: context.symmetricPadding(16, 0),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Row(
+                      children: [
+                        Text(
+                          'Prioritaze your rules',
+                          style: Theme.of(context).textTheme.labelBaseStrong,
+                        ),
+                        SizedBox(width: 2),
+                        Text(
+                          '*',
+                          style: Theme.of(context).textTheme.labelBaseStrong
+                              .copyWith(color: Constant.errorIcon(context)),
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
+              ),
+              Row(
+                crossAxisAlignment: CrossAxisAlignment.end,
                 children: [
-                  Row(
-                    children: [
-                      Text(
-                        'Prioritaze your rules',
-                        style: Theme.of(context).textTheme.labelBaseStrong,
+                  Expanded(
+                    flex: 2,
+                    child: TextInputWidget(
+                      title: 'New Rules',
+                      hintText: 'urgency',
+                      controller: TextEditingController(),
+                      keyboardType: TextInputType.number,
+                    ),
+                  ),
+                  SizedBox(width: 8),
+                  Expanded(
+                    flex: 2,
+                    child: TextInputWidget(
+                      title: 'How many per cent',
+                      hintText: '10%',
+                      controller: TextEditingController(),
+                      keyboardType: TextInputType.number,
+                    ),
+                  ),
+                  SizedBox(width: 8),
+                  Expanded(
+                    child: Padding(
+                      padding: const EdgeInsets.only(bottom: 4),
+                      child: BaseButton(
+                        suffixIcon: PhosphorIcon(PhosphorIcons.plusCircle()),
+                        height: context.dynamicHeight(0.055),
+                        baseButtonType: BaseButtonType.filledGreen,
+                        baseButtonSize: BaseButtonSize.small,
                       ),
-                      SizedBox(width: 2),
-                      Text(
-                        '*',
-                        style: Theme.of(context).textTheme.labelBaseStrong
-                            .copyWith(color: Constant.errorIcon(context)),
-                      ),
-                    ],
+                    ),
                   ),
                 ],
               ),
-            ),
-            ListItemSelection(
-              title: 'Choose your rules',
-              callback: () {
-                context.read<BottomSheetBloc>().showBottomSheet(
-                  context: context,
-                  widget: RulesBottomSheet(),
-                );
-                // context.pushNamed('categories');
-              },
-              listItemSelectionType: ListItemSelectionType.idleCard,
-            ),
-            SizedBox(height: 8),
-            Column(
-              children: List.generate(5, (index) {
-                return SizedBox(
-                  child: TextInputWidget(
-                    // hintText: '1/2 Pound of Andoulle Sausage',
-                    controller: TextEditingController(
-                      text: '1/2 Pound of Andoulle Sausage',
-                    ),
-                    keyboardType: TextInputType.text,
-                    suffixIcon: PhosphorIcon(
-                      PhosphorIcons.trash(),
-                      size: 20,
-                      color: Constant.iconBase(context),
-                    ),
-                  ),
-                );
-              }),
-            ),
-
-            // Text('Service', style: Theme.of(context).textTheme.labelBaseStrong),
-          ],
+              Padding(
+                padding: context.symmetricPadding(24, 0),
+                child: Text(
+                  'veya',
+                  style: Theme.of(context).textTheme.labelBaseStrong,
+                ),
+              ),
+              ListItemSelection(
+                title: 'Choose your rules',
+                callback: () {
+                  // context.read<BottomSheetBloc>().showBottomSheet(
+                  //   context: context,
+                  //   widget: RulesBottomSheet(),
+                  // );
+                  // context.pushNamed('categories');
+                },
+                listItemSelectionType: ListItemSelectionType.idleCard,
+              ),
+              SizedBox(height: 16),
+              Text(
+                'Toplam 100% tamamlanmalıdır',
+                style: Theme.of(context).textTheme.labelBaseStrong,
+              ),
+              Column(
+                children: List.generate(5, (index) {
+                  return Row(
+                    crossAxisAlignment: CrossAxisAlignment.end,
+                    children: [
+                      SizedBox(
+                        width: context.dynamicWidth(0.65),
+                        child: TextInputWidget(
+                          // hintText: '1/2 Pound of Andoulle Sausage',
+                          controller: TextEditingController(
+                            text: '1/2 Pound of Andoulle Sausage',
+                          ),
+                          keyboardType: TextInputType.text,
+                          suffixIcon: PhosphorIcon(
+                            PhosphorIcons.trash(),
+                            size: 20,
+                            color: Constant.iconBase(context),
+                          ),
+                        ),
+                      ),
+                      SizedBox(width: 8),
+                      Expanded(
+                        child: TextInputWidget(
+                          title: '',
+                          hintText: '10%',
+                          controller: TextEditingController(),
+                          keyboardType: TextInputType.number,
+                        ),
+                      ),
+                    ],
+                  );
+                }),
+              ),
+            ],
+          ),
         ),
       ),
     );

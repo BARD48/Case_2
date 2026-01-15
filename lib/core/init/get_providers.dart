@@ -1,6 +1,7 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:turkcell_project/features/auth/viewmodel/user_viewmodel.dart';
 
+import '../../features/home/viewmodel/request_viewmodel.dart';
 import '../cubits/bottom_sheet.dart';
 
 class AppProviders {
@@ -11,6 +12,7 @@ class AppProviders {
       BlocProvider<BottomSheetBloc>(create: (_) => BottomSheetBloc()),
 
       BlocProvider<UserViewmodel>(create: (_) => UserViewmodel()),
+      BlocProvider<RequestViewmodel>(create: (_) => RequestViewmodel()),
     ];
   }
 }

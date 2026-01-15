@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
@@ -7,6 +8,7 @@ import 'package:turkcell_project/core/constants/dynamic_constants.dart';
 import 'package:turkcell_project/features/auth/state/user_state.dart';
 import '../../../../core/constants/text_constants.dart';
 import '../../../../core/theme/custom_themes/text_theme.dart';
+import '../../service/user_service.dart';
 import '../../viewmodel/user_viewmodel.dart';
 
 class LoginPage extends StatefulWidget {
@@ -20,10 +22,11 @@ class _LoginPageState extends State<LoginPage> {
   late UserViewmodel viewmodel;
   late TextEditingController mailController;
   late TextEditingController passwordController;
+  bool isManager = false;
   @override
   void initState() {
-    passwordController = TextEditingController();
-    mailController = TextEditingController();
+    passwordController = TextEditingController(text: '123456');
+    mailController = TextEditingController(text: 'ad@gmail.com');
     viewmodel = context.read<UserViewmodel>();
     super.initState();
   }
@@ -57,6 +60,21 @@ class _LoginPageState extends State<LoginPage> {
                   keyboardType: TextInputType.text,
                 ),
                 SizedBox(height: 16),
+                // Row(
+                //   mainAxisAlignment: MainAxisAlignment.start,
+                //   children: [
+                //     GestureDetector(
+                //       onTap: () => context.pushNamed('managerLogin'),
+                //       child: Text(
+                //         'You are a manager',
+                //         style: Theme.of(context).textTheme.labelStrong.copyWith(
+                //           color: Constant.errorText(context),
+                //         ),
+                //       ),
+                //     ),
+                //   ], //ad@gnail.com
+                // ),
+                SizedBox(height: 16),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: [
@@ -78,13 +96,34 @@ class _LoginPageState extends State<LoginPage> {
                 Padding(
                   padding: context.symmetricPadding(40, 0),
                   child: BaseButton(
-                    callback: () {
-                      viewmodel.loginUser(
-                        password: passwordController.text,
-                        mail: mailController.text,
-                      );
-                      if (state.isChecked) {
-                        context.pushNamed('home');
+                    callback: () async {
+                      try {
+                        final userCredential = await FirebaseAuth.instance
+                            .signInWithEmailAndPassword(
+                              email: mailController.text.trim(),
+                              password: passwordController.text.trim(),
+                            );
+
+                        final firebaseUser = userCredential.user;
+                        if (firebaseUser == null) return;
+
+                        final userService = AuthService();
+                        final role = await userService.getUserRole(
+                          firebaseUser.uid,
+                        );
+
+                        if (!mounted) return;
+                        print('role${role}');
+                        if (role == "SUPER_ADMIN") {
+                          context.go('/home'); // Yönetici sayfası
+                        } else {
+                          context.go('/userHome'); // Normal kullanıcı
+                        }
+                      } on FirebaseAuthException catch (e) {
+                        if (!mounted) return;
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(content: Text(e.message ?? 'Login error')),
+                        );
                       }
                     },
                     title: 'Login',
@@ -101,3 +140,4 @@ class _LoginPageState extends State<LoginPage> {
     );
   }
 }
+//ad@gmail.com

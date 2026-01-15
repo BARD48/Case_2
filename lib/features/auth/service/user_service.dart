@@ -30,4 +30,16 @@ class AuthService {
       password: password,
     );
   }
+
+  Future<String?> getUserRole(String uid) async {
+    final doc = await _firestore.collection('managers').doc(uid).get();
+    if (!doc.exists) return null;
+    return doc.data()?['role'] as String?;
+  }
+
+  Future<bool> isManager(String uid) async {
+    final doc = await _firestore.collection('users').doc(uid).get();
+    if (!doc.exists) return false;
+    return doc.data()?['isManager'] ?? false;
+  }
 }
